@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#7b3f5b">
+  <title>Petal & Vine | Flower Boutique Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ADMIN LOGIN -->
+  <div id="loginScreen" class="login-screen">
+    <form id="loginForm" class="login-card">
+      <div class="brand-mark">✿</div>
+      <p class="eyebrow">FLOWER BOUTIQUE MANAGEMENT</p>
+      <h1>Petal <span>&</span> Vine</h1>
+      <p class="muted">Administrator sign in</p>
+
+      <label for="username">Username</label>
+      <input id="username" name="username"
+             autocomplete="username" required maxlength="30">
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password"
+             autocomplete="current-password" required maxlength="60">
+
+      <button class="btn primary full" type="submit">Sign In</button>
+
+      <p id="loginError" class="error" role="alert"></p>
+      <p class="login-hint">Demo login: <b>admin</b> / <b>petal123</b></p>
+    </form>
+  </div>
+
+  <!-- MAIN APPLICATION -->
+  <div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="side-brand">
+        <span>✿</span>
+        <div>
+          <b>Petal & Vine</b>
+          <small>FLOWER BOUTIQUE</small>
+        </div>
+      </div>
+
+      <nav id="mainNav" aria-label="Main menu">
+        <button class="nav-link active" data-view="dashboard">
+          ⌂ <span>Dashboard</span>
+        </button>
+
+        <button class="nav-link" data-view="products">
+          ❀ <span>Flower Products</span>
+        </button>
+
+        <button class="nav-link" data-view="orders">
+          ▤ <span>Customer Orders</span>
+        </button>
+
+        <button class="nav-link" data-view="transactions">
+          ↶ <span>Transaction History</span>
+        </button>
+
+        <button class="nav-link" data-view="inventory">
+          ▦ <span>Inventory</span>
+        </button>
+      </nav>
+
+      <div class="side-bottom">
+        <small>DATA STRUCTURES PROJECT</small>
+        <button id="logoutBtn" class="logout-btn">↪ Log out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">PETAL & VINE MANAGEMENT</p>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+
+        <div class="admin-chip">
+          <span class="online-dot"></span> Administrator
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="dashboardView" class="view">
+
+        <div class="welcome-panel">
+          <div>
+            <p class="eyebrow">WELCOME BACK</p>
+            <h1>Make every moment bloom.</h1>
+            <p>
+              Manage your flower collection, customer orders,
+              and boutique inventory in one place.
+            </p>
+          </div>
+
+          <div class="welcome-flower">✿</div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-icon">❀</span>
+            <p>Total Products</p>
+            <strong id="statProducts">0</strong>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">▦</span>
+            <p>Units in Stock</p>
+            <strong id="statStock">0</strong>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">▤</span>
+            <p>Pending Orders</p>
+            <strong id="statOrders">0</strong>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">₱</span>
+            <p>Processed Sales</p>
+            <strong id="statSales">₱0.00</strong>
+          </article>
+        </div>
+
+        <div class="content-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">QUICK ACCESS</p>
+              <h3>Management menu</h3>
+            </div>
+          </div>
+
+          <div class="quick-grid">
+            <button class="quick-action" data-go="products">
+              <span>＋</span>
+              <b>Manage Products</b>
+              <small>Add, search, edit, or remove flowers</small>
+            </button>
+
+            <button class="quick-action" data-go="orders">
+              <span>▤</span>
+              <b>Manage Orders</b>
+              <small>Place and process customer orders</small>
+            </button>
+
+            <button class="quick-action" data-go="transactions">
+              <span>↶</span>
+              <b>View Transactions</b>
+              <small>Review the latest completed sales</small>
+            </button>
+
+            <button class="quick-action" data-go="inventory">
+              <span>▦</span>
+              <b>Check Inventory</b>
+              <small>Monitor available flower stocks</small>
+            </button>
+          </div>
+        </div>
+
+        <p class="structure-note">
+          <b>Data structures in use:</b>
+          Product Array · Order Queue (FIFO) · Transaction Stack (LIFO)
+        </p>
+      </section>
+
+      <!-- FLOWER PRODUCTS -->
+      <section id="productsView" class="view hidden">
+
+        <div class="two-column">
+
+          <div class="content-card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">PRODUCT MANAGEMENT</p>
+                <h3 id="productFormTitle">Add Flower Product</h3>
+              </div>
+            </div>
+
+            <form id="productForm" class="form-grid">
+
+              <input type="hidden" id="editProductId">
+
+              <div>
+                <label for="productName">Flower name</label>
+                <input id="productName" maxlength="60"
+                       placeholder="e.g. Red Roses" required>
+              </div>
+
+              <div>
+                <label for="productCategory">Category</label>
+                <select id="productCategory" required>
+                  <option value="">Select category</option>
+                  <option>Roses</option>
+                  <option>Tulips</option>
+                  <option>Sunflowers</option>
+                  <option>Lilies</option>
+                  <option>Orchids</option>
+                  <option>Mixed Bouquet</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="productPrice">Price (₱)</label>
+                <input id="productPrice" type="number"
+                       min="0.01" step="0.01"
+                       placeholder="0.00" required>
+              </div>
+
+              <div>
+                <label for="productStock">Stock quantity</label>
+                <input id="productStock" type="number"
+                       min="0" step="1"
+                       placeholder="0" required>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn primary" type="submit"
+                        id="saveProductBtn">Add Product</button>
+
+                <button class="btn secondary hidden"
+                        type="button" id="cancelEditBtn">Cancel</button>
+              </div>
+
+              <p id="productMessage" class="message full-span"
+                 aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div class="content-card info-card">
+            <p class="eyebrow">ARRAY DATA STRUCTURE</p>
+            <div class="big-symbol">[ ]</div>
+            <h3>Product Array</h3>
+            <p>
+              Flower records are stored in a JavaScript array.
+              The system uses array operations to add, display,
+              search, update, and delete products.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="content-card table-card">
+
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">PRODUCT CATALOG</p>
+              <h3>Flower Products</h3>
+            </div>
+
+            <input id="productSearch" class="search-input"
+                   placeholder="Search by name, ID, or category..."
+                   aria-label="Search products">
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Flower</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productTable"></tbody>
+            </table>
+          </div>
+
+          <p id="emptyProducts" class="empty-state hidden">
+            No flower products found.
+          </p>
+        </div>
+      </section>
+
+      <!-- CUSTOMER ORDERS -->
+      <section id="ordersView" class="view hidden">
+
+        <div class="two-column">
+
+          <div class="content-card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">NEW CUSTOMER REQUEST</p>
+                <h3>Place Customer Order</h3>
+              </div>
+            </div>
+
+            <form id="orderForm" class="form-grid">
+
+              <div class="full-span">
+                <label for="customerName">Customer name</label>
+                <input id="customerName" maxlength="60"
+                       placeholder="Enter customer name" required>
+              </div>
+
+              <div class="full-span">
+                <label for="orderProduct">Select flower</label>
+                <select id="orderProduct" required></select>
+              </div>
+
+              <div>
+                <label for="orderQuantity">Quantity</label>
+                <input id="orderQuantity" type="number"
+                       min="1" step="1" value="1" required>
+              </div>
+
+              <div class="form-actions align-end">
+                <button class="btn primary" type="submit">
+                  Add to Order Queue
+                </button>
+              </div>
+
+              <p id="orderMessage" class="message full-span"
+                 aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div class="content-card info-card">
+            <p class="eyebrow">QUEUE DATA STRUCTURE</p>
+            <div class="big-symbol">⇢</div>
+            <h3>Order Queue (FIFO)</h3>
+            <p>
+              Orders are placed at the rear of the queue and
+              processed from the front. First In, First Out
+              ensures that earlier orders are handled first.
+            </p>
+            <button id="processOrderBtn" class="btn primary">
+              Process Next Order
+            </button>
+          </div>
+
+        </div>
+
+        <div class="content-card table-card">
+
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">FIRST IN, FIRST OUT</p>
+              <h3>Pending Customer Orders</h3>
+            </div>
+
+            <span id="queueCount" class="count-pill">0 orders</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Queue Position</th>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Flower</th>
+                  <th>Qty</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="orderTable"></tbody>
+            </table>
+          </div>
+
+          <p id="emptyOrders" class="empty-state hidden">
+            There are no pending orders.
+          </p>
+        </div>
+      </section>
+
+      <!-- TRANSACTION HISTORY -->
+      <section id="transactionsView" class="view hidden">
+
+        <div class="content-card info-banner">
+          <div>
+            <p class="eyebrow">STACK DATA STRUCTURE</p>
+            <h3>Transaction History (LIFO)</h3>
+            <p>
+              Completed transactions are pushed onto a stack.
+              The most recent transaction appears first when
+              viewing history.
+            </p>
+          </div>
+          <div class="big-symbol">↶</div>
+        </div>
+
+        <div class="content-card table-card">
+
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">LATEST TRANSACTIONS FIRST</p>
+              <h3>Completed Sales</h3>
+            </div>
+
+            <span id="transactionCount" class="count-pill">
+              0 records
+            </span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Date & Time</th>
+                  <th>Customer</th>
+                  <th>Flower</th>
+                  <th>Qty</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="transactionTable"></tbody>
+            </table>
+          </div>
+
+          <p id="emptyTransactions" class="empty-state hidden">
+            No completed transactions yet.
+          </p>
+        </div>
+      </section>
+
+      <!-- INVENTORY -->
+      <section id="inventoryView" class="view hidden">
+
+        <div class="content-card">
+
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">STOCK MONITORING</p>
+              <h3>Inventory Overview</h3>
+            </div>
+
+            <span id="inventoryUnits" class="count-pill">0 units</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Flower</th>
+                  <th>Category</th>
+                  <th>Available Stock</th>
+                  <th>Stock Status</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTable"></tbody>
+            </table>
+          </div>
+
+          <p id="emptyInventory" class="empty-state hidden">
+            No products available. Add products first.
+          </p>
+        </div>
+
+        <div class="structure-note">
+          Inventory is updated automatically when a queued order
+          is successfully processed.
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Petal & Vine Flower Boutique
+        · Data Structures Final Project
+      </footer>
+
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
